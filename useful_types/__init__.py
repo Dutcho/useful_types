@@ -22,7 +22,13 @@ _T_contra = TypeVar("_T_contra", contravariant=True)
 Incomplete: TypeAlias = Any
 
 
-class IdentityFunction(Protocol):
+# see https://github.com/hauntsaninja/useful_types/issues/47 and https://github.com/hauntsaninja/useful_types/issues/48
+class IdentityFunction(Protocol[_T]):
+    """
+    The single-argument callables for which the argument type and the return type are identical.
+
+    (technically, this is an endofunction, of which the identity function `lambda x: x` is only one example)
+    """
     def __call__(self, __x: _T) -> _T: ...
 
 
@@ -293,3 +299,32 @@ class SequenceNotStr(Protocol[_T_co]):
     def index(self, value: Any, start: int = 0, stop: int = ..., /) -> int: ...
     def count(self, value: Any, /) -> int: ...
     def __reversed__(self) -> Iterator[_T_co]: ...
+
+
+# ====================
+# Homogeneous tuples of degree in range(11)
+# ====================
+
+# see https://github.com/hauntsaninja/useful_types/issues/36
+
+NullTuple: TypeAlias = tuple[()]  # degree 0
+Singleton: TypeAlias = tuple[_T]  # degree 1
+Pair: TypeAlias = tuple[_T, _T]
+Triple: TypeAlias = tuple[_T, _T, _T]
+Quadruple: TypeAlias = tuple[_T, _T, _T, _T]
+Quintuple: TypeAlias = tuple[_T, _T, _T, _T, _T]
+Sextuple: TypeAlias = tuple[_T, _T, _T, _T, _T, _T]
+Septuple: TypeAlias = tuple[_T, _T, _T, _T, _T, _T, _T]
+Octuple: TypeAlias = tuple[_T, _T, _T, _T, _T, _T, _T, _T]
+Nonuple: TypeAlias = tuple[_T, _T, _T, _T, _T, _T, _T, _T, _T]
+Decuple: TypeAlias = tuple[_T, _T, _T, _T, _T, _T, _T, _T, _T, _T]  # degree 10
+
+
+# ====================
+# Utility types
+# ====================
+
+# see https://github.com/hauntsaninja/useful_types/issues/34
+
+SingleOrIterable: TypeAlias = _T | Iterable[_T]
+SingleOrSequence: TypeAlias = _T | Sequence[_T]
